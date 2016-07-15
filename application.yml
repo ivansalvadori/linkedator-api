@@ -1,2 +1,2 @@
-config:
-  ontologyFilePath: "domainOntology.owl"
+server.port: 9091
+config.ontologyFilePath: "domainOntology.owl"

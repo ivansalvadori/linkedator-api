@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.inf.lapesd</groupId>
 	<artifactId>linkedator-api</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -76,9 +76,8 @@
 		<dependency>
 			<groupId>br.ufsc.inf.lapesd</groupId>
 			<artifactId>linkedator</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
-
 	</dependencies>
 
 </project>

@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -22,9 +23,8 @@ import br.ufsc.inf.lapesd.linkedator.SemanticMicroserviceDescription;
 @Path("/")
 public class SemanticMicroserviceDescriptionEndpoint {
 
-    @Context 
-    javax.servlet.http.HttpServletRequest request; 
-
+    @Context
+    private HttpServletRequest request;
 
     @Value("${config.ontologyFilePath}")
     private String ontologyFilePath;
@@ -40,7 +40,10 @@ public class SemanticMicroserviceDescriptionEndpoint {
     @Path("microservice/description")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registryMicroserviceDescription(SemanticMicroserviceDescription semanticMicroserviceDescription) {
+        String remoteAddr = request.getRemoteAddr();
+        semanticMicroserviceDescription.setIpAddress(remoteAddr);
         linkedator.registryDescription(semanticMicroserviceDescription);
+        System.out.println(semanticMicroserviceDescription.getMicroserviceFullPath() + " Registered");
         return Response.ok().build();
     }
 
