@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -49,8 +50,9 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
     @POST
     @Path("createLinks")
-    public Response registryMicroserviceDescription(String resourceRepresentation) {
-        String representationWithLinks = linkedator.createLinks(resourceRepresentation);
+
+    public Response registryMicroserviceDescription(String resourceRepresentation, @QueryParam("verifyLinks") boolean verifyLinks) {
+        String representationWithLinks = linkedator.createLinks(resourceRepresentation, verifyLinks);
         return Response.ok(representationWithLinks).build();
     }
 
