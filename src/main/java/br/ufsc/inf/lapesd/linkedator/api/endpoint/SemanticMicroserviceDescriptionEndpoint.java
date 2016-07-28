@@ -50,7 +50,6 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
     @POST
     @Path("createLinks")
-
     public Response registryMicroserviceDescription(String resourceRepresentation, @QueryParam("verifyLinks") boolean verifyLinks) {
         String representationWithLinks = linkedator.createLinks(resourceRepresentation, verifyLinks);
         return Response.ok(representationWithLinks).build();
