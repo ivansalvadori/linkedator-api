@@ -29,12 +29,24 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
     @Value("${config.ontologyFilePath}")
     private String ontologyFilePath;
+
+    @Value("${config.enableCache}")
+    private boolean enableCache;
+
+    @Value("${config.cacheMaximumSize}")
+    private int cacheMaximumSize;
+
+    @Value("${config.cacheExpireAfterAccessSeconds}")
+    private int cacheExpireAfterAccessSeconds;
+
     private Linkedator linkedator = null;
 
     @PostConstruct
     public void init() throws IOException {
         String ontology = new String(Files.readAllBytes(Paths.get(ontologyFilePath)));
         this.linkedator = new Linkedator(ontology);
+        this.linkedator.enableCache(enableCache);
+        this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
     }
 
     @POST
@@ -44,7 +56,6 @@ public class SemanticMicroserviceDescriptionEndpoint {
         String remoteAddr = request.getRemoteAddr();
         semanticMicroserviceDescription.setIpAddress(remoteAddr);
         linkedator.registryDescription(semanticMicroserviceDescription);
-        System.out.println(semanticMicroserviceDescription.getMicroserviceFullPath() + " Registered");
         return Response.ok().build();
     }
 
