@@ -1,5 +1,5 @@
 server.port: 9091
-config.ontologyFilePath: "domainOntology.owl"
+config.ontologyFilePath: "ontology.owl"
 config.enableCache: true
 config.cacheMaximumSize: 100000
 config.cacheExpireAfterAccessSeconds: 1000

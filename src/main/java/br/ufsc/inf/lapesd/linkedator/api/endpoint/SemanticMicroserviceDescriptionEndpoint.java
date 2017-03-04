@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.ufsc.inf.lapesd.linkedator.Linkedator;
+import br.ufsc.inf.lapesd.linkedator.PropertyAndValueLinkedator;
 import br.ufsc.inf.lapesd.linkedator.SemanticMicroserviceDescription;
 
 @Component
@@ -40,6 +41,7 @@ public class SemanticMicroserviceDescriptionEndpoint {
     private int cacheExpireAfterAccessSeconds;
 
     private Linkedator linkedator = null;
+    private PropertyAndValueLinkedator propertyAndValueLinkedator = null;
 
     @PostConstruct
     public void init() throws IOException {
@@ -47,6 +49,8 @@ public class SemanticMicroserviceDescriptionEndpoint {
         this.linkedator = new Linkedator(ontology);
         this.linkedator.enableCache(enableCache);
         this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
+
+        this.propertyAndValueLinkedator = new PropertyAndValueLinkedator(ontology);
     }
 
     @POST
@@ -56,6 +60,7 @@ public class SemanticMicroserviceDescriptionEndpoint {
         String remoteAddr = request.getRemoteAddr();
         semanticMicroserviceDescription.setIpAddress(remoteAddr);
         linkedator.registryDescription(semanticMicroserviceDescription);
+        propertyAndValueLinkedator.registryDescription(semanticMicroserviceDescription);
         return Response.ok().build();
     }
 
@@ -63,6 +68,7 @@ public class SemanticMicroserviceDescriptionEndpoint {
     @Path("createLinks")
     public Response registryMicroserviceDescription(String resourceRepresentation, @QueryParam("verifyLinks") boolean verifyLinks) {
         String representationWithLinks = linkedator.createLinks(resourceRepresentation, verifyLinks);
+        representationWithLinks = propertyAndValueLinkedator.createLinks(representationWithLinks);
         return Response.ok(representationWithLinks).build();
     }
 

@@ -1,8 +1,7 @@
-0.0.2-SNAPSHOT
+0.0.3
 ==============
-Cache configuration implemented.
-Link verification option implemented.
-Linkedator-api recognizes the remote ip address.
+Linkedator-core updated to 0.0.3.
+Linkedator based on Property and Value is know called after Linkedator(traditional).
 
 0.0.1
 =====
