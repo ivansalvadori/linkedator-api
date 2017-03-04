@@ -1,5 +1,5 @@
 server.port: 9091
-config.ontologyFilePath: "ontology.owl"
+config.ontologyFilePath: "/home/ivan/Documents/ijwis2017-case-study/mergedOntology.owl"
 config.enableCache: true
 config.cacheMaximumSize: 100000
 config.cacheExpireAfterAccessSeconds: 1000
