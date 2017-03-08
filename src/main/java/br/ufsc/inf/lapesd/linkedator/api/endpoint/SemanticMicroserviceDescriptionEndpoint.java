@@ -3,6 +3,7 @@ package br.ufsc.inf.lapesd.linkedator.api.endpoint;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,10 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+
+import br.ufsc.inf.lapesd.alignator.core.Alignator;
+import br.ufsc.inf.lapesd.alignator.core.entity.loader.ServiceDescription;
 import br.ufsc.inf.lapesd.linkedator.Linkedator;
 import br.ufsc.inf.lapesd.linkedator.SemanticMicroserviceDescription;
 
@@ -41,12 +46,15 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
     private Linkedator linkedator = null;
 
+    private Alignator alignator = null;
+
     @PostConstruct
     public void init() throws IOException {
         String ontology = new String(Files.readAllBytes(Paths.get(ontologyFilePath)));
         this.linkedator = new Linkedator(ontology);
         this.linkedator.enableCache(enableCache);
         this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
+        alignator = new Alignator();
     }
 
     @POST
@@ -56,6 +64,10 @@ public class SemanticMicroserviceDescriptionEndpoint {
         String remoteAddr = request.getRemoteAddr();
         semanticMicroserviceDescription.setIpAddress(remoteAddr);
         linkedator.registryMicroserviceDescription(semanticMicroserviceDescription);
+
+        String ontologyBase64 = semanticMicroserviceDescription.getOntologyBase64();
+        String ontology = new String(Base64.getDecoder().decode(ontologyBase64.getBytes()));
+        alignator.registerService(new Gson().fromJson(semanticMicroserviceDescription.toString(), ServiceDescription.class), ontology);
         return Response.ok().build();
     }
 
@@ -63,6 +75,7 @@ public class SemanticMicroserviceDescriptionEndpoint {
     @Path("createLinks")
     public Response registryMicroserviceDescription(String resourceRepresentation, @QueryParam("verifyLinks") boolean verifyLinks) {
         String representationWithLinks = linkedator.createLinks(resourceRepresentation, verifyLinks);
+        alignator.loadEntitiesAndAlignOntologies(representationWithLinks);
         return Response.ok(representationWithLinks).build();
     }
 

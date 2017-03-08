@@ -76,7 +76,12 @@
 		<dependency>
 			<groupId>br.ufsc.inf.lapesd</groupId>
 			<artifactId>linkedator</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>br.ufsc.inf.lapesd</groupId>
+			<artifactId>alignator-core</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 		
 
