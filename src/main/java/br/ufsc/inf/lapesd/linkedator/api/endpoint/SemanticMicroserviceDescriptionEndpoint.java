@@ -134,12 +134,6 @@ public class SemanticMicroserviceDescriptionEndpoint {
     
     @Async
     private void align(String resourceRepresentation){
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         alignator.loadEntitiesAndAlignOntologies(resourceRepresentation);
     }
 
