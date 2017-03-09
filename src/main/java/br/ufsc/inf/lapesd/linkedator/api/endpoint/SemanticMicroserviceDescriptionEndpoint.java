@@ -3,6 +3,7 @@ package br.ufsc.inf.lapesd.linkedator.api.endpoint;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -22,6 +23,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.jena.ontology.OntModel;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -59,34 +61,57 @@ public class SemanticMicroserviceDescriptionEndpoint {
     @PostConstruct
     public void init() throws IOException {
         String ontology = new String(Files.readAllBytes(Paths.get(ontologyFilePath)));
-        this.linkedator = new Linkedator(ontology);
-        this.linkedator.enableCache(enableCache);
-        this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
-        alignator = new Alignator();
 
+        try {
+            ontology = new String(Files.readAllBytes(Paths.get("alignator-merged-ontology.owl")));
+
+        } catch (NoSuchFileException e) {
+            System.out.println("alignator-merged-ontology.owl does not exist");
+        } finally {
+            this.linkedator = new Linkedator(ontology);
+            this.linkedator.enableCache(enableCache);
+            this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
+            this.alignator = new Alignator();
+        }
     }
 
     @POST
     @Path("microservice/description")
     @Consumes(MediaType.APPLICATION_JSON)
+    @SuppressWarnings("finally")
     public Response registryMicroserviceDescription(SemanticMicroserviceDescription semanticMicroserviceDescription) {
         String remoteAddr = request.getRemoteAddr();
         semanticMicroserviceDescription.setIpAddress(remoteAddr);
-        linkedator.registryMicroserviceDescription(semanticMicroserviceDescription);
 
         String ontologyBase64 = semanticMicroserviceDescription.getOntologyBase64();
         String ontology = new String(Base64.getDecoder().decode(ontologyBase64.getBytes()));
+
         alignator.registerService(new Gson().fromJson(semanticMicroserviceDescription.toString(), ServiceDescription.class), ontology);
 
         this.semanticMicroserviceDescriptions.add(semanticMicroserviceDescription);
 
-        return Response.ok().build();
+        try {
+            String mergedOntology = new String(Files.readAllBytes(Paths.get("alignator-merged-ontology.owl")));
+            this.linkedator = new Linkedator(mergedOntology);
+            this.linkedator.enableCache(enableCache);
+            this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
+
+            for (SemanticMicroserviceDescription registeredSemanticMicroserviceDescription : semanticMicroserviceDescriptions) {
+                this.linkedator.registryMicroserviceDescription(registeredSemanticMicroserviceDescription);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return Response.ok().build();
+        }
+
     }
 
     @POST
     @Path("createLinks")
     @SuppressWarnings("finally")
-    public Response createLins(String resourceRepresentation, @QueryParam("verifyLinks") boolean verifyLinks) {
+    public Response createLinks(String resourceRepresentation, @QueryParam("verifyLinks") boolean verifyLinks) {
 
         try {
             String ontology = new String(Files.readAllBytes(Paths.get("alignator-merged-ontology.owl")));
@@ -102,9 +127,20 @@ public class SemanticMicroserviceDescriptionEndpoint {
             e.printStackTrace();
         } finally {
             final String representationWithLinks = linkedator.createLinks(resourceRepresentation, verifyLinks);
-            alignator.loadEntitiesAndAlignOntologies(representationWithLinks);
+            align(resourceRepresentation);
             return Response.ok(representationWithLinks).build();
         }
+    }
+    
+    @Async
+    private void align(String resourceRepresentation){
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        alignator.loadEntitiesAndAlignOntologies(resourceRepresentation);
     }
 
     @GET
