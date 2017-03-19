@@ -101,7 +101,8 @@ public class SemanticMicroserviceDescriptionEndpoint {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            this.linkedator.registryMicroserviceDescription(semanticMicroserviceDescription);
+            this.linkedator.updateOntology(ontology);
         } finally {
             return Response.ok().build();
         }
@@ -131,9 +132,9 @@ public class SemanticMicroserviceDescriptionEndpoint {
             return Response.ok(representationWithLinks).build();
         }
     }
-    
+
     @Async
-    private void align(String resourceRepresentation){
+    private void align(String resourceRepresentation) {
         alignator.loadEntitiesAndAlignOntologies(resourceRepresentation);
     }
 
