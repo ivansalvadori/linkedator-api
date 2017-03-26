@@ -29,7 +29,10 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 
 import br.ufsc.inf.lapesd.alignator.core.Alignator;
+import br.ufsc.inf.lapesd.alignator.core.Alignment;
 import br.ufsc.inf.lapesd.alignator.core.entity.loader.ServiceDescription;
+import br.ufsc.inf.lapesd.alignator.core.report.EntityLoaderReport;
+import br.ufsc.inf.lapesd.alignator.core.report.OntologyManagerReport;
 import br.ufsc.inf.lapesd.linkedator.Linkedator;
 import br.ufsc.inf.lapesd.linkedator.SemanticMicroserviceDescription;
 
@@ -155,5 +158,50 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
         return Response.ok(ontology).build();
 
+    }
+
+    @GET
+    @Path("report/entityLoader")
+    @Produces("text/csv")
+    public Response loadReport() {
+
+        StringBuilder response = new StringBuilder("executionId,numberOfLoadedEntities,numberOfCharsLoadedEntities\n");
+        List<EntityLoaderReport> reportList = this.alignator.getEntityLoaderReportList();
+        for (EntityLoaderReport report : reportList) {
+            response.append(String.format("%s,%s,%s\n", report.getExecutionId(), report.getNumberOfLoadedEntities(), report.getNumberOfCharsLoadedEntities()));
+        }
+
+        return Response.ok(response.toString()).build();
+    }
+
+    @GET
+    @Path("report/entityLoader/alignments")
+    @Produces("text/csv")
+    public Response loadReportAlignments() {
+
+        StringBuilder response = new StringBuilder("executionId,numberOfLoadedEntities,numberOfCharsLoadedEntities\n");
+        List<EntityLoaderReport> reportList = this.alignator.getEntityLoaderReportList();
+        for (EntityLoaderReport report : reportList) {
+            List<Alignment> alignments = report.getAlignments();
+            for (Alignment alignment : alignments) {
+                response.append(String.format("%s,%s,%s,%s\n", report.getExecutionId(), alignment.getUri1(), alignment.getUri2(), alignment.getStrength()));
+            }
+        }
+
+        return Response.ok(response.toString()).build();
+    }
+
+    @GET
+    @Path("report/ontologyManager")
+    @Produces("text/csv")
+    public Response loadReportOntologyManager() {
+
+        StringBuilder response = new StringBuilder("executionId,ontologyBaseUri,numberOfIndividuals,numberOfCharsOntologyModel\n");
+        List<OntologyManagerReport> ontologyManagerReportList = this.alignator.getOntologyManagerReportList();
+        for (OntologyManagerReport report : ontologyManagerReportList) {
+            response.append(String.format("%s,%s,%s,%s\n", report.getExecutionId(), report.getOntologyBaseUri(), report.getNumberOfIndividuals(), report.getNumberOfCharsOntologyModel()));
+        }
+
+        return Response.ok(response.toString()).build();
     }
 }

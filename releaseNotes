@@ -1,5 +1,6 @@
 0.0.3-SNAPSHOT
 =====
+HTTP method for getting report information of Alignator.
 Interation with alignator for heterogeneous ontology alignament.
 Creation of a merged ontology to allows the link creation among heterogeneus ontology.
 
