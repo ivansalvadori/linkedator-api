@@ -176,15 +176,15 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
     @GET
     @Path("report/entityLoader/alignments")
-    @Produces("text/csv")
+    @Produces("text/plain")
     public Response loadReportAlignments() {
 
-        StringBuilder response = new StringBuilder("executionId,numberOfLoadedEntities,numberOfCharsLoadedEntities\n");
+        StringBuilder response = new StringBuilder("executionId,property1,property2,strength,ontologyMatcherTime\n");
         List<EntityLoaderReport> reportList = this.alignator.getEntityLoaderReportList();
         for (EntityLoaderReport report : reportList) {
             List<Alignment> alignments = report.getAlignments();
             for (Alignment alignment : alignments) {
-                response.append(String.format("%s,%s,%s,%s\n", report.getExecutionId(), alignment.getUri1(), alignment.getUri2(), alignment.getStrength()));
+                response.append(String.format("%s,%s,%s,%s,%s\n", report.getExecutionId(), alignment.getUri1(), alignment.getUri2(), alignment.getStrength(), report.getMatcherElapsedTime()));
             }
         }
 
@@ -193,7 +193,7 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
     @GET
     @Path("report/ontologyManager")
-    @Produces("text/csv")
+    @Produces("text/plain")
     public Response loadReportOntologyManager() {
 
         StringBuilder response = new StringBuilder("executionId,ontologyBaseUri,numberOfIndividuals,numberOfCharsOntologyModel\n");
