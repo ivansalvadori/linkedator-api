@@ -23,7 +23,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.jena.ontology.OntModel;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -37,7 +36,6 @@ import br.ufsc.inf.lapesd.linkedator.Linkedator;
 import br.ufsc.inf.lapesd.linkedator.SemanticMicroserviceDescription;
 
 @Component
-@Scope("singleton")
 @Path("/")
 public class SemanticMicroserviceDescriptionEndpoint {
 
@@ -179,12 +177,12 @@ public class SemanticMicroserviceDescriptionEndpoint {
     @Produces("text/plain")
     public Response loadReportAlignments() {
 
-        StringBuilder response = new StringBuilder("executionId,property1,property2,strength,ontologyMatcherTime\n");
+        StringBuilder response = new StringBuilder("executionId,property1,property2,strength,ontologyMatcherTime,alignatorTime\n");
         List<EntityLoaderReport> reportList = this.alignator.getEntityLoaderReportList();
         for (EntityLoaderReport report : reportList) {
             List<Alignment> alignments = report.getAlignments();
             for (Alignment alignment : alignments) {
-                response.append(String.format("%s,%s,%s,%s,%s\n", report.getExecutionId(), alignment.getUri1(), alignment.getUri2(), alignment.getStrength(), report.getMatcherElapsedTime()));
+                response.append(String.format("%s,%s,%s,%s,%s,%s\n", report.getExecutionId(), alignment.getUri1(), alignment.getUri2(), alignment.getStrength(), report.getMatcherElapsedTime(), report.getAlignatorElapsedTime()));
             }
         }
 
