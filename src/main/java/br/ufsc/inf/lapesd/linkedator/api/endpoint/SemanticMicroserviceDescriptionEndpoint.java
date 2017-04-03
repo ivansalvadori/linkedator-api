@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.jena.ontology.OntModel;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -37,6 +37,7 @@ import br.ufsc.inf.lapesd.linkedator.Linkedator;
 import br.ufsc.inf.lapesd.linkedator.SemanticMicroserviceDescription;
 
 @Component
+@Scope("singleton")
 @Path("/")
 public class SemanticMicroserviceDescriptionEndpoint {
 
@@ -59,7 +60,7 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
     private Linkedator linkedator = null;
 
-    private Alignator alignator = null;
+    private Alignator alignator = new Alignator();
 
     @PostConstruct
     public void init() throws IOException {
@@ -74,42 +75,40 @@ public class SemanticMicroserviceDescriptionEndpoint {
             this.linkedator = new Linkedator(ontology);
             this.linkedator.enableCache(enableCache);
             this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
+
             this.alignator = new Alignator();
+
         }
     }
 
     @POST
     @Path("microservice/description")
     @Consumes(MediaType.APPLICATION_JSON)
-    @SuppressWarnings("finally")
     public Response registryMicroserviceDescription(SemanticMicroserviceDescription semanticMicroserviceDescription) {
         String remoteAddr = request.getRemoteAddr();
         semanticMicroserviceDescription.setIpAddress(remoteAddr);
+        this.semanticMicroserviceDescriptions.add(semanticMicroserviceDescription);
 
         String ontologyBase64 = semanticMicroserviceDescription.getOntologyBase64();
         String ontology = new String(Base64.getDecoder().decode(ontologyBase64.getBytes()));
-
-        alignator.registerService(new Gson().fromJson(semanticMicroserviceDescription.toString(), ServiceDescription.class), ontology);
-
-        this.semanticMicroserviceDescriptions.add(semanticMicroserviceDescription);
+        String json = new Gson().toJson(semanticMicroserviceDescription);
+        ServiceDescription serviceDescription = new Gson().fromJson(json, ServiceDescription.class);
+        alignator.registerService(serviceDescription, ontology);
 
         try {
             String mergedOntology = new String(Files.readAllBytes(Paths.get("alignator-merged-ontology.owl")));
             this.linkedator = new Linkedator(mergedOntology);
             this.linkedator.enableCache(enableCache);
             this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
+            this.linkedator.registryMicroserviceDescription(semanticMicroserviceDescription);
+            return Response.ok().build();
 
-            for (SemanticMicroserviceDescription registeredSemanticMicroserviceDescription : semanticMicroserviceDescriptions) {
-                this.linkedator.registryMicroserviceDescription(registeredSemanticMicroserviceDescription);
-            }
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             this.linkedator.registryMicroserviceDescription(semanticMicroserviceDescription);
             this.linkedator.updateOntology(ontology);
-        } finally {
             return Response.ok().build();
-        }
 
+        }
     }
 
     @POST
@@ -127,7 +126,22 @@ public class SemanticMicroserviceDescriptionEndpoint {
                 this.linkedator.registryMicroserviceDescription(semanticMicroserviceDescription);
             }
 
-        } catch (IOException e) {
+            // this.alignator = new Alignator();
+            // for (SemanticMicroserviceDescription
+            // semanticMicroserviceDescription :
+            // semanticMicroserviceDescriptions) {
+            // String ontologyBase64 =
+            // semanticMicroserviceDescription.getOntologyBase64();
+            // String serviceOntology = new
+            // String(Base64.getDecoder().decode(ontologyBase64.getBytes()));
+            // String json = new Gson().toJson(semanticMicroserviceDescription);
+            // ServiceDescription serviceDescription = new Gson().fromJson(json,
+            // ServiceDescription.class);
+            // alignator.registerService(serviceDescription, serviceOntology);
+
+            // }
+
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             final String representationWithLinks = linkedator.createLinks(resourceRepresentation, verifyLinks);
@@ -136,7 +150,6 @@ public class SemanticMicroserviceDescriptionEndpoint {
         }
     }
 
-    @Async
     private void align(String resourceRepresentation) {
         alignator.loadEntitiesAndAlignOntologies(resourceRepresentation);
     }

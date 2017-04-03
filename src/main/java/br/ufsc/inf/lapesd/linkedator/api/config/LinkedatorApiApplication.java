@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAutoConfiguration
 @EnableAsync
 @SpringBootApplication
-@ComponentScan("br.ufsc.inf.lapesd.linkedator.api")
+@ComponentScan("br.ufsc.inf.lapesd")
 public class LinkedatorApiApplication {
 
     public static void main(String[] args) {
