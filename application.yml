@@ -3,3 +3,4 @@ config.ontologyFilePath: "empty-ontology.owl"
 config.enableCache: true
 config.cacheMaximumSize: 100000
 config.cacheExpireAfterAccessSeconds: 1000
+config.ontolyMaxIndividuals: 1000

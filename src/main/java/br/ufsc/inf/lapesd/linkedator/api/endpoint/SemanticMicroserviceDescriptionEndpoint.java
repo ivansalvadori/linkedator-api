@@ -56,6 +56,9 @@ public class SemanticMicroserviceDescriptionEndpoint {
     @Value("${config.cacheExpireAfterAccessSeconds}")
     private int cacheExpireAfterAccessSeconds;
 
+    @Value("${config.ontolyMaxIndividuals}")
+    private int ontolyMaxIndividuals;
+
     private List<SemanticMicroserviceDescription> semanticMicroserviceDescriptions = new ArrayList<>();
 
     private Linkedator linkedator = null;
@@ -76,7 +79,7 @@ public class SemanticMicroserviceDescriptionEndpoint {
             this.linkedator.enableCache(enableCache);
             this.linkedator.setCacheConfiguration(cacheMaximumSize, cacheExpireAfterAccessSeconds);
 
-            this.alignator = new Alignator();
+            this.alignator.getOntologyManager().setOntologyMaxIndividuals(this.ontolyMaxIndividuals);
 
         }
     }
@@ -125,22 +128,6 @@ public class SemanticMicroserviceDescriptionEndpoint {
             for (SemanticMicroserviceDescription semanticMicroserviceDescription : semanticMicroserviceDescriptions) {
                 this.linkedator.registryMicroserviceDescription(semanticMicroserviceDescription);
             }
-
-            // this.alignator = new Alignator();
-            // for (SemanticMicroserviceDescription
-            // semanticMicroserviceDescription :
-            // semanticMicroserviceDescriptions) {
-            // String ontologyBase64 =
-            // semanticMicroserviceDescription.getOntologyBase64();
-            // String serviceOntology = new
-            // String(Base64.getDecoder().decode(ontologyBase64.getBytes()));
-            // String json = new Gson().toJson(semanticMicroserviceDescription);
-            // ServiceDescription serviceDescription = new Gson().fromJson(json,
-            // ServiceDescription.class);
-            // alignator.registerService(serviceDescription, serviceOntology);
-
-            // }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -175,7 +162,7 @@ public class SemanticMicroserviceDescriptionEndpoint {
 
     @GET
     @Path("report/entityLoader")
-    @Produces("text/csv")
+    @Produces("text/plain")
     public Response loadReport() {
 
         StringBuilder response = new StringBuilder("executionId,numberOfLoadedEntities,numberOfCharsLoadedEntities\n");
