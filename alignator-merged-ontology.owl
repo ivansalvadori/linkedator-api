@@ -1,128 +1,53 @@
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://partner-ontology#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:sspsc="http://sspsc.example.org/ns#"
+    xmlns:sch="http://schema.org/"
+    xmlns:ssp="http://ssp.example.org/ns#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#" > 
-  <rdf:Description rdf:about="http://partner-ontology#Partner">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#Expense">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#executorRegisterNumber">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#executorFullName">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <owl:equivalentProperty rdf:resource="http://partner-ontology#partnerTributationType"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#expenseDate">
-    <owl:equivalentProperty rdf:resource="http://civil-servant-ontology#startDateOnJob"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://partner-ontology#partnerTributationType">
-    <owl:equivalentProperty rdf:resource="http://government-payment-ontology#department"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="http://partner-ontology#Partner"/>
-    <owl:equivalentProperty rdf:resource="http://government-payment-ontology#executorFullName"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#department">
-    <owl:equivalentProperty rdf:resource="http://partner-ontology#partnerSector"/>
-    <owl:equivalentProperty rdf:resource="http://partner-ontology#partnerTributationType"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#providerName">
-    <owl:equivalentProperty rdf:resource="http://partner-ontology#partnerName"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#executedBy">
-    <rdfs:range rdf:resource="http://government-payment-ontology#Executor"/>
-    <rdfs:domain rdf:resource="http://government-payment-ontology#Expense"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#transaction">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology#startDateOnJob">
-    <owl:equivalentProperty rdf:resource="http://government-payment-ontology#expenseDate"/>
-    <rdfs:domain rdf:resource="http://civil-servant-ontology#PublicServant"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology#PublicServant">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#providerRegisterNumber">
-    <owl:equivalentProperty rdf:resource="http://partner-ontology#partnerRegistrationID"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology#workingTime">
-    <rdfs:domain rdf:resource="http://civil-servant-ontology#PublicServant"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://partner-ontology#partnerSector">
-    <owl:equivalentProperty rdf:resource="http://government-payment-ontology#department"/>
-    <owl:equivalentProperty rdf:resource="http://civil-servant-ontology#companySector"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="http://partner-ontology#Partner"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://partner-ontology">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology#registrationNumber">
-    <owl:equivalentProperty rdf:resource="http://partner-ontology#partnerRegistrationID"/>
-    <rdfs:domain rdf:resource="http://civil-servant-ontology#PublicServant"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://partner-ontology#partnerName">
-    <owl:equivalentProperty rdf:resource="http://government-payment-ontology#providerName"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="http://partner-ontology#Partner"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://partner-ontology#partnerRegistrationID">
-    <owl:equivalentProperty rdf:resource="http://civil-servant-ontology#registrationNumber"/>
-    <owl:equivalentProperty rdf:resource="http://government-payment-ontology#providerRegisterNumber"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="http://partner-ontology#Partner"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology#professionalPosition">
-    <rdfs:domain rdf:resource="http://civil-servant-ontology#PublicServant"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#providedBy">
-    <rdfs:range rdf:resource="http://government-payment-ontology#Provider"/>
-    <rdfs:domain rdf:resource="http://government-payment-ontology#Expense"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#expenseValue">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology#companyName">
-    <rdfs:domain rdf:resource="http://civil-servant-ontology#PublicServant"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#Provider">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology#companySector">
-    <owl:equivalentProperty rdf:resource="http://partner-ontology#partnerSector"/>
-    <rdfs:domain rdf:resource="http://civil-servant-ontology#PublicServant"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#Executor">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://civil-servant-ontology#name">
-    <rdfs:domain rdf:resource="http://civil-servant-ontology#PublicServant"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://government-payment-ontology#agency">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Ontology rdf:about="http://ssp.example.org/ns"/>
+  <owl:Ontology rdf:about="http://sspsc.example.org/ns"/>
+  <owl:Class rdf:about="http://ssp.example.org/ns#PoliceReport">
+    <owl:equivalentClass>
+      <owl:Class rdf:about="http://sspsc.example.org/ns#PoliceReport"/>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="http://sspsc.example.org/ns#PoliceReport">
+    <owl:equivalentClass rdf:resource="http://ssp.example.org/ns#PoliceReport"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://sspsc.example.org/ns#envolvedIn">
+    <rdfs:range rdf:resource="http://sspsc.example.org/ns#PoliceReport"/>
+    <rdfs:domain rdf:resource="http://schema.org/Person"/>
+    <owl:equivalentProperty>
+      <owl:ObjectProperty rdf:about="http://ssp.example.org/ns#envolvedIn"/>
+    </owl:equivalentProperty>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://ssp.example.org/ns#victim">
+    <rdfs:domain rdf:resource="http://ssp.example.org/ns#PoliceReport"/>
+    <rdfs:range rdf:resource="http://schema.org/Person"/>
+    <owl:equivalentProperty>
+      <owl:ObjectProperty rdf:about="http://sspsc.example.org/ns#victim"/>
+    </owl:equivalentProperty>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://sspsc.example.org/ns#victim">
+    <rdfs:range rdf:resource="http://schema.org/Person"/>
+    <rdfs:domain rdf:resource="http://sspsc.example.org/ns#PoliceReport"/>
+    <owl:equivalentProperty rdf:resource="http://ssp.example.org/ns#victim"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://ssp.example.org/ns#envolvedIn">
+    <rdfs:domain rdf:resource="http://schema.org/Person"/>
+    <rdfs:range rdf:resource="http://ssp.example.org/ns#PoliceReport"/>
+    <owl:equivalentProperty rdf:resource="http://sspsc.example.org/ns#envolvedIn"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://ssp.example.org/ns#numeroRg">
+    <rdfs:domain rdf:resource="http://schema.org/Person"/>
+    <owl:equivalentProperty>
+      <owl:DatatypeProperty rdf:about="http://sspsc.example.org/ns#numeroRg"/>
+    </owl:equivalentProperty>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://sspsc.example.org/ns#numeroRg">
+    <rdfs:domain rdf:resource="http://schema.org/Person"/>
+    <owl:equivalentProperty rdf:resource="http://ssp.example.org/ns#numeroRg"/>
+  </owl:DatatypeProperty>
 </rdf:RDF>
