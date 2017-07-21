@@ -1,0 +1,21 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+@prefix sspsc: <http://sspsc.example.org/ns#>.
+@prefix sch: <http://schema.org/>.
+
+<http://sspsc.example.org/ns> a owl:Ontology.
+
+sspsc:PoliceReport a owl:Class.
+
+sspsc:victim a owl:ObjectProperty;
+    rdfs:domain sspsc:PoliceReport;
+    rdfs:range sch:Person.
+sspsc:envolvedIn a owl:ObjectProperty;
+    rdfs:domain sch:Person;
+    rdfs:range sspsc:PoliceReport.
+
+sspsc:numeroRg a owl:DatatypeProperty;
+    rdfs:domain sch:Person.

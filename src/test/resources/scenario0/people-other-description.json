@@ -1,0 +1,20 @@
+{
+  "ipAddress": "10.1.1.2",
+  "serverPort": "80",
+  "uriBase": "/other/",
+  "semanticResources": [
+    {
+      "entity": "http://schema.org/Person",
+      "uriTemplates": [
+        {
+          "method": "GET",
+          "uri": "person/{x}",
+          "parameters": {
+            "x": "http://other.example.org/ns#rg"
+          }
+        }
+      ]
+    }
+  ],
+  "ontologyBase64": "PHJkZjpSREYKICAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgIHhtbG5zOm90aGVyPSJodHRwOi8vb3RoZXIuZXhhbXBsZS5vcmcvbnMjIgogICAgeG1sbnM6b3dsPSJodHRwOi8vd3d3LnczLm9yZy8yMDAyLzA3L293bCMiCiAgICB4bWxuczpzY2g9Imh0dHA6Ly9zY2hlbWEub3JnLyIKICAgIHhtbG5zOnJkZnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDEvcmRmLXNjaGVtYSMiCiAgICB4bWxuczp4c2Q9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hIyI+CiAgPG93bDpPbnRvbG9neSByZGY6YWJvdXQ9Imh0dHA6Ly9vdGhlci5leGFtcGxlLm9yZy9ucyIvPgogIDxvd2w6RGF0YXR5cGVQcm9wZXJ0eSByZGY6YWJvdXQ9Imh0dHA6Ly9vdGhlci5leGFtcGxlLm9yZy9ucyNyZyI+CiAgICA8cmRmczpkb21haW4gcmRmOnJlc291cmNlPSJodHRwOi8vc2NoZW1hLm9yZy9QZXJzb24iLz4KICA8L293bDpEYXRhdHlwZVByb3BlcnR5Pgo8L3JkZjpSREY+Cg=="
+}

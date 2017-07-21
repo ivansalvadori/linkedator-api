@@ -1,0 +1,20 @@
+{
+  "ipAddress": "10.1.1.1",
+  "serverPort": "80",
+  "uriBase": "/sspsc/",
+  "semanticResources": [
+    {
+      "entity": "http://schema.org/Person",
+      "uriTemplates": [
+        {
+          "method": "GET",
+          "uri": "person/{x}",
+          "parameters": {
+            "x": "http://sspsc.example.org/ns#numeroRg"
+          }
+        }
+      ]
+    }
+  ],
+  "ontologyBase64": "PHJkZjpSREYKICAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgIHhtbG5zOm93bD0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNy9vd2wjIgogICAgeG1sbnM6c3Nwc2M9Imh0dHA6Ly9zc3BzYy5leGFtcGxlLm9yZy9ucyMiCiAgICB4bWxuczpzY2g9Imh0dHA6Ly9zY2hlbWEub3JnLyIKICAgIHhtbG5zOnJkZnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDEvcmRmLXNjaGVtYSMiCiAgICB4bWxuczp4c2Q9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hIyI+CiAgPG93bDpPbnRvbG9neSByZGY6YWJvdXQ9Imh0dHA6Ly9zc3BzYy5leGFtcGxlLm9yZy9ucyIvPgogIDxvd2w6Q2xhc3MgcmRmOmFib3V0PSJodHRwOi8vc3Nwc2MuZXhhbXBsZS5vcmcvbnMjUG9saWNlUmVwb3J0Ii8+CiAgPG93bDpPYmplY3RQcm9wZXJ0eSByZGY6YWJvdXQ9Imh0dHA6Ly9zc3BzYy5leGFtcGxlLm9yZy9ucyNlbnZvbHZlZEluIj4KICAgIDxyZGZzOnJhbmdlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3NzcHNjLmV4YW1wbGUub3JnL25zI1BvbGljZVJlcG9ydCIvPgogICAgPHJkZnM6ZG9tYWluIHJkZjpyZXNvdXJjZT0iaHR0cDovL3NjaGVtYS5vcmcvUGVyc29uIi8+CiAgPC9vd2w6T2JqZWN0UHJvcGVydHk+CiAgPG93bDpPYmplY3RQcm9wZXJ0eSByZGY6YWJvdXQ9Imh0dHA6Ly9zc3BzYy5leGFtcGxlLm9yZy9ucyN2aWN0aW0iPgogICAgPHJkZnM6cmFuZ2UgcmRmOnJlc291cmNlPSJodHRwOi8vc2NoZW1hLm9yZy9QZXJzb24iLz4KICAgIDxyZGZzOmRvbWFpbiByZGY6cmVzb3VyY2U9Imh0dHA6Ly9zc3BzYy5leGFtcGxlLm9yZy9ucyNQb2xpY2VSZXBvcnQiLz4KICA8L293bDpPYmplY3RQcm9wZXJ0eT4KICA8b3dsOkRhdGF0eXBlUHJvcGVydHkgcmRmOmFib3V0PSJodHRwOi8vc3Nwc2MuZXhhbXBsZS5vcmcvbnMjbnVtZXJvUmciPgogICAgPHJkZnM6ZG9tYWluIHJkZjpyZXNvdXJjZT0iaHR0cDovL3NjaGVtYS5vcmcvUGVyc29uIi8+CiAgPC9vd2w6RGF0YXR5cGVQcm9wZXJ0eT4KPC9yZGY6UkRGPgo="
+}

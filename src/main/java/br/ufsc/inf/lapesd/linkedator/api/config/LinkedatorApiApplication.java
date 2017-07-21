@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import javax.ws.rs.ApplicationPath;
+
 @EnableAutoConfiguration
 @SpringBootApplication
 @ComponentScan("br.ufsc.inf.lapesd")
