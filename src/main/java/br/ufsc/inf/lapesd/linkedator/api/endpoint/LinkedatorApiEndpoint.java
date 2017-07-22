@@ -62,7 +62,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class LinkedatorApiEndpoint {
     private static Log log = LogFactory.getLog(LinkedatorApiEndpoint.class);
 
-    @Value("${config.ontologyFilePath}")
+    @Value("${config.ontologyFilePath:null}")
     private String ontologyFilePath;
 
     @Value("${config.enableCache}")
