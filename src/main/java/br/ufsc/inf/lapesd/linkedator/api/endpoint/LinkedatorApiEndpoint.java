@@ -121,7 +121,7 @@ public class LinkedatorApiEndpoint {
             log.info(String.format("Initialized Linkedator ontologies with %d triples from %s",
                     model.size(), ontologyFilePath));
         } catch (RiotNotFoundException e) {
-            log.error("Ontology file " + ontologyFilePath + "not found, will keep " +
+            log.error("Ontology file " + ontologyFilePath + " not found, will keep " +
                     "probing for it");
         }
         Cache<String, Boolean> cache = !enableCache ? null :
@@ -151,7 +151,7 @@ public class LinkedatorApiEndpoint {
             try {
                 Model model = RDFDataMgr.loadModel(uri);
                 linkedator.updateOntologies(model);
-                log.info(String.format("Reloaded ontology from %s with %d triples",
+                log.debug(String.format("Reloaded ontology from %s with %d triples",
                         uri, model.size()));
             } catch (JenaException e) {
                 log.error("Bad ontology at " + uri, e);
