@@ -38,7 +38,10 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RiotNotFoundException;
 import org.apache.jena.shared.JenaException;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -59,7 +62,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @Component
 @Scope("singleton")
 @Path("/")
-public class LinkedatorApiEndpoint {
+public class LinkedatorApiEndpoint implements ApplicationContextAware {
     private static Log log = LogFactory.getLog(LinkedatorApiEndpoint.class);
 
     @Value("${config.ontologyFilePath:null}")
@@ -91,6 +94,7 @@ public class LinkedatorApiEndpoint {
     private Alignator alignator;
     private ThreadPoolExecutor alignExecutor;
     private FileWatcher ontologyFileWatcher;
+    private ApplicationContext applicationContext;
 
 
     @PostConstruct
@@ -104,7 +108,7 @@ public class LinkedatorApiEndpoint {
     private void initAlignator() {
         Preconditions.checkState(alignatorQueueSize > 0);
 
-        alignator = new Alignator();
+        alignator = applicationContext.getBean(Alignator.class);
         ontologyFilePath = "alignator-merged-ontology.owl";
         this.alignator.getOntologyManager().setOntologyMaxIndividuals(this.ontolyMaxIndividuals);
 
@@ -315,6 +319,11 @@ public class LinkedatorApiEndpoint {
         }
 
         return Response.ok(response.toString()).build();
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
     private class AlignatorTask implements Callable<Void> {
